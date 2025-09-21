@@ -1,10 +1,16 @@
 import {
     ImageBackground,
-    Text,
     View
 } from "react-native";
+import { Card } from "./Card";
+import { cards } from "./const";
+import { generateRandomList } from "./utils";
 
 export default function GameScreen() {
+    const totalCards = 4;
+
+    const pickedCards = generateRandomList(totalCards, 0, cards.length - 1).map(i => cards[i]);
+
     return (
         <ImageBackground
             source={require('./assets/images/table-top.jpg')}
@@ -12,7 +18,11 @@ export default function GameScreen() {
             resizeMode="stretch"
         >
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                <Text>Second Activity (Screen)</Text>
+                <View style={{ flexDirection: 'row', gap: 10 }}>
+                    {pickedCards.map((card, index) => (
+                        <Card key={index} card={card} index={index} />
+                    ))}
+                </View>
             </View>
         </ImageBackground>
 
