@@ -6,6 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Animated,
   Button,
+  ImageBackground,
   Platform,
   StyleSheet,
   Text,
@@ -116,25 +117,35 @@ function MainScreen() {
   }, []);
 
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: "plum",
-        alignItems: "center",
-        justifyContent: "center",
-      }}
+    <ImageBackground
+      source={require("./assets/images/splash-screen.png")} // 👈 update to your hippo image path
+      style={{ flex: 1 }}
+      resizeMode="cover" // fills the screen, no overflow
     >
-      <Text
+      <View
         style={{
-          color: "black",
-          fontSize: 30,
-          marginBottom: 15,
-          fontWeight: "bold",
+          flex: 1,
+          alignItems: "center",
+          justifyContent: "flex-end", // 👈 push content to bottom
+          paddingBottom: 50, // 👈 add some breathing space
         }}
       >
-        Challenge your brain not yourself!
-      </Text>
-      <Button title="Start" onPress={onReloadPress} />
-    </View>
+        <Text
+          style={{
+            color: "black",
+            fontSize: 30,
+            marginBottom: 15,
+            fontWeight: "bold",
+            backgroundColor: "rgba(255,255,255,0.7)", // readability
+            padding: 10,
+            borderRadius: 8,
+            textAlign: "center",
+          }}
+        >
+          Challenge your brain not yourself!
+        </Text>
+        <Button title="Start" onPress={onReloadPress} />
+      </View>
+    </ImageBackground>
   );
 }
