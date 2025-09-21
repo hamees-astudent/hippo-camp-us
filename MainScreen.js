@@ -1,20 +1,14 @@
-import * as Updates from "expo-updates";
 import { useCallback } from "react";
 import {
     Button,
     ImageBackground,
-    Platform,
     Text,
     View
 } from "react-native";
 
-export default function MainScreen() {
-    const onReloadPress = useCallback(() => {
-        if (Platform.OS === "web") {
-            location.reload();
-        } else {
-            Updates.reloadAsync();
-        }
+export default function MainScreen({ navigation }) {
+    const onStartPress = useCallback(() => {
+        navigation.navigate('GameScreen')
     }, []);
 
     return (
@@ -45,7 +39,7 @@ export default function MainScreen() {
                 >
                     Challenge your brain not yourself!
                 </Text>
-                <Button title="Start" onPress={onReloadPress} />
+                <Button title="Start" onPress={onStartPress} />
             </View>
         </ImageBackground>
     );
