@@ -20,7 +20,7 @@ SplashScreen.preventAutoHideAsync().catch(() => {
 
 export default function App() {
   return (
-    <AnimatedAppLoader image={{ uri: Constants.expoConfig.splash.image }}>
+    <AnimatedAppLoader image={require('./assets/images/splash-screen.png')}>
       <MainScreen />
     </AnimatedAppLoader>
   );
@@ -54,7 +54,7 @@ function AnimatedSplashScreen({ children, image }) {
     if (isAppReady) {
       Animated.timing(animation, {
         toValue: 0,
-        duration: 1000,
+        duration: 5000,
         useNativeDriver: true,
       }).start(() => setAnimationComplete(true));
     }
@@ -118,7 +118,7 @@ function MainScreen() {
 
   return (
     <ImageBackground
-      source={require("./assets/images/splash-screen.png")} // 👈 update to your hippo image path
+      source={require('./assets/images/splash-screen.png')}
       style={{ flex: 1 }}
       resizeMode="cover" // fills the screen, no overflow
     >
