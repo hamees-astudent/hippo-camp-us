@@ -132,9 +132,9 @@ function MainScreen() {
           fontWeight: "bold",
         }}
       >
-        Pretty Cool!
+        Challenge your brain not yourself!
       </Text>
-      <Button title="Run Again" onPress={onReloadPress} />
+      <Button title="Start" onPress={onReloadPress} />
     </View>
   );
 }
