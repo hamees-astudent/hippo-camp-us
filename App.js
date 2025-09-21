@@ -53,8 +53,8 @@ function AnimatedSplashScreen({ children, image }) {
   useEffect(() => {
     if (isAppReady) {
       Animated.timing(animation, {
-        toValue: 0,
-        duration: 5000,
+        toValue: 0,        // fade to invisible
+        duration: 3000,    // 1.5s fade (tweak as needed)
         useNativeDriver: true,
       }).start(() => setAnimationComplete(true));
     }
@@ -82,7 +82,7 @@ function AnimatedSplashScreen({ children, image }) {
             StyleSheet.absoluteFill,
             {
               backgroundColor: Constants.expoConfig.splash.backgroundColor,
-              opacity: animation,
+              opacity: animation, // 👈 now opacity drives fade
             },
           ]}
         >
@@ -91,11 +91,7 @@ function AnimatedSplashScreen({ children, image }) {
               width: "100%",
               height: "100%",
               resizeMode: Constants.expoConfig.splash.resizeMode || "contain",
-              transform: [
-                {
-                  scale: animation,
-                },
-              ],
+              opacity: animation, // 👈 fade effect on the image itself
             }}
             source={image}
             onLoadEnd={onImageLoaded}
