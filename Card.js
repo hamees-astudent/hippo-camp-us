@@ -9,7 +9,6 @@ export function Card({ card, index }) {
     const animationPixelRate = 5;
     const displaySeconds = 5;
 
-    const [currentCard, setCurrentCard] = useState(card);
     const [width, setWidth] = useState(maxCardWidth);
     const [isReversed, setIsReversed] = useState(false);
     const ref = useRef(null);
@@ -18,7 +17,6 @@ export function Card({ card, index }) {
         setWidth((prev) => {
             if (prev <= minCardWidth) {
                 clearInterval(ref.current);
-                setCurrentCard();
                 setIsReversed(true);
                 ref.current = setInterval(increaseWidth, animationSpeed);
                 return minCardWidth;
@@ -48,13 +46,13 @@ export function Card({ card, index }) {
     return (
         <ImageBackground
             key={index}
-            source={isReversed ? CardBack : currentCard}
+            source={isReversed ? CardBack : card}
             style={{ width: width, height: 145, padding: (maxCardWidth - width) / 2 }}
             resizeMode="stretch"
             alignItems="center"
             justifyContent="center"
             onClick={() => {
-                setIsReversed(!isReversed);
+                setIsReversed(false);
             }}
         />
     );
