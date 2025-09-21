@@ -13,7 +13,7 @@ import {
   View,
 } from "react-native";
 
-// Instruct SplashScreen not to hide yet, we want to do this manually
+
 SplashScreen.preventAutoHideAsync().catch(() => {
   /* reloading the app might trigger some race conditions, ignore them */
 });
@@ -53,8 +53,8 @@ function AnimatedSplashScreen({ children, image }) {
   useEffect(() => {
     if (isAppReady) {
       Animated.timing(animation, {
-        toValue: 0,        // fade to invisible
-        duration: 3000,    // 1.5s fade (tweak as needed)
+        toValue: 0,
+        duration: 3000,
         useNativeDriver: true,
       }).start(() => setAnimationComplete(true));
     }
@@ -63,10 +63,10 @@ function AnimatedSplashScreen({ children, image }) {
   const onImageLoaded = useCallback(async () => {
     try {
       await SplashScreen.hideAsync();
-      // Load stuff
+
       await Promise.all([]);
     } catch (e) {
-      // handle errors
+
     } finally {
       setAppReady(true);
     }
@@ -82,7 +82,7 @@ function AnimatedSplashScreen({ children, image }) {
             StyleSheet.absoluteFill,
             {
               backgroundColor: Constants.expoConfig.splash.backgroundColor,
-              opacity: animation, // 👈 now opacity drives fade
+              opacity: animation,
             },
           ]}
         >
@@ -91,7 +91,7 @@ function AnimatedSplashScreen({ children, image }) {
               width: "100%",
               height: "100%",
               resizeMode: Constants.expoConfig.splash.resizeMode || "contain",
-              opacity: animation, // 👈 fade effect on the image itself
+              opacity: animation,
             }}
             source={image}
             onLoadEnd={onImageLoaded}
@@ -116,14 +116,14 @@ function MainScreen() {
     <ImageBackground
       source={require('./assets/images/splash-screen.png')}
       style={{ flex: 1 }}
-      resizeMode="cover" // fills the screen, no overflow
+      resizeMode="cover"
     >
       <View
         style={{
           flex: 1,
           alignItems: "center",
-          justifyContent: "flex-end", // 👈 push content to bottom
-          paddingBottom: 50, // 👈 add some breathing space
+          justifyContent: "flex-end",
+          paddingBottom: 50,
         }}
       >
         <Text
@@ -132,7 +132,7 @@ function MainScreen() {
             fontSize: 30,
             marginBottom: 15,
             fontWeight: "bold",
-            backgroundColor: "rgba(255,255,255,0.7)", // readability
+            backgroundColor: "rgba(255,255,255,0.7)",
             padding: 10,
             borderRadius: 8,
             textAlign: "center",
