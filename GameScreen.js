@@ -9,7 +9,7 @@ import { generateRandomList } from "./utils";
 
 export default function GameScreen() {
     const [totalCards, setTotalCards] = useState(2); // must be even
-    const revealSeconds = (totalCards / 2) * 1000;
+    const revealMilliseconds = (totalCards / 2) * 1000;
     const [revealedCards, setRevealedCards] = useState([]);
     const [pickedCards, setPickedCards] = useState([]);
 
@@ -23,9 +23,9 @@ export default function GameScreen() {
     // Hide revealed cards after a delay (initial reveal or mismatches)
     useEffect(() => {
         if (revealedCards.length === 0) return;
-        const t = setTimeout(() => setRevealedCards([]), revealSeconds);
+        const t = setTimeout(() => setRevealedCards([]), revealMilliseconds);
         return () => clearTimeout(t);
-    }, [revealedCards, revealSeconds]);
+    }, [revealedCards, revealMilliseconds]);
 
     // When exactly two cards are revealed, mark them as matched (set to a negative sentinel) if they match
     useEffect(() => {
@@ -56,7 +56,7 @@ export default function GameScreen() {
         }, 1000);
 
         return () => clearTimeout(timeout);
-    }, [revealedCards, pickedCards, revealSeconds]);
+    }, [revealedCards, pickedCards, revealMilliseconds]);
 
     // Compute a near-square grid that adapts to the number of cards
     const columns = Math.ceil(Math.sqrt(Math.max(1, pickedCards.length)));
