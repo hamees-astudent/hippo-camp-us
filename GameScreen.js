@@ -7,7 +7,7 @@ import { cards } from "./const";
 import { generateRandomList } from "./utils";
 
 export default function GameScreen() {
-    const totalCards = 4;
+    const totalCards = 6;
 
     const pickedCards = generateRandomList(totalCards, 0, cards.length - 1).map(i => cards[i]);
 
