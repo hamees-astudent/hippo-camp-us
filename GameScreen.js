@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
     ImageBackground,
     View
@@ -8,6 +9,7 @@ import { generateRandomList } from "./utils";
 
 export default function GameScreen() {
     const totalCards = 6;
+    const [revealedCards, setRevealedCards] = useState([]);
 
     const pickedCards = generateRandomList(totalCards, 0, cards.length - 1).map(i => cards[i]);
 
@@ -20,7 +22,10 @@ export default function GameScreen() {
             <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
                 <View style={{ flexDirection: 'row', gap: 10 }}>
                     {pickedCards.map((card, index) => (
-                        <Card key={index} card={card} index={index} />
+                        <Card key={index} card={card} index={index}
+                            displaySeconds={totalCards / 2}
+                            revealCard={(c) => setRevealedCards((prev) => [...prev, c])}
+                            isRevealed={revealedCards.includes(card)} />
                     ))}
                 </View>
             </View>

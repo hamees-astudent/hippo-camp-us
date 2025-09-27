@@ -2,14 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { ImageBackground } from "react-native-web";
 import CardBack from './assets/images/card-back.svg';
 
-export function Card({ card, index }) {
+export function Card({ card, index, revealCard, isRevealed, displaySeconds }) {
     const maxCardWidth = 100;
-    const animationSpeed = 75;
-    const animationPixelRate = 5; // how much of the width per tick
-    const displaySeconds = 5;
+    const animationSpeed = 5;
+    const animationPixelRate = 2; // how much of the width per tick
 
     const [scale, setScale] = useState(1); // 1 -> 0 -> 1
-    const [isReversed, setIsReversed] = useState(false);
     const intervalRef = useRef(null);
     const timeoutRef = useRef(null);
 
@@ -20,7 +18,7 @@ export function Card({ card, index }) {
             const next = Math.max(0, prev - scaleStep);
             if (next <= 0) {
                 clearInterval(intervalRef.current);
-                setIsReversed(true);
+                revealCard(card);
                 intervalRef.current = setInterval(increaseScale, animationSpeed);
             }
             return next;
@@ -52,7 +50,7 @@ export function Card({ card, index }) {
     return (
         <ImageBackground
             key={index}
-            source={isReversed ? CardBack : card}
+            source={isRevealed ? CardBack : card}
             style={{
                 width: maxCardWidth, // fixed width
                 height: 145,
@@ -62,7 +60,7 @@ export function Card({ card, index }) {
             }}
             resizeMode="stretch"
             onClick={() => {
-                setIsReversed(false);
+                revealCard(false);
             }}
         />
     );
