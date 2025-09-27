@@ -9,7 +9,7 @@ import { generateRandomList } from "./utils";
 
 export default function GameScreen() {
     const [totalCards, setTotalCards] = useState(2); // must be even
-    const revealSeconds = (totalCards / 2) * 1000;
+    const revealSeconds = (totalCards / 3) * 1000;
     const [revealedCards, setRevealedCards] = useState([]);
     const [pickedCards, setPickedCards] = useState([]);
 
@@ -20,11 +20,36 @@ export default function GameScreen() {
         setRevealedCards(Array.from({ length: c.length }, (_, i) => i));
     }, [totalCards]);
 
+    // Hide revealed cards after a delay (initial reveal or mismatches)
     useEffect(() => {
         if (revealedCards.length === 0) return;
         const t = setTimeout(() => setRevealedCards([]), revealSeconds);
         return () => clearTimeout(t);
     }, [revealedCards, revealSeconds]);
+
+    // When exactly two cards are revealed, remove them if they match
+    useEffect(() => {
+        setTimeout(() => {
+            if (revealedCards.length !== 2) return;
+            const [a, b] = revealedCards;
+            if (
+                pickedCards[a] !== undefined &&
+                pickedCards[b] !== undefined &&
+                pickedCards[a] === pickedCards[b]
+            ) {
+                setPickedCards(prev => {
+                    const toRemove = new Set([a, b]);
+                    const next = prev.filter((_, idx) => !toRemove.has(idx));
+                    if (next.length === 0) {
+                        setTotalCards(tc => tc * 2);
+                    }
+                    return next;
+                });
+                // Clear revealed to allow next picks immediately
+                setRevealedCards([]);
+            }
+        }, revealSeconds / 2);
+    }, [revealedCards, pickedCards]);
 
     return (
         <ImageBackground
@@ -40,7 +65,9 @@ export default function GameScreen() {
                             card={card}
                             index={index}
                             revealCard={() =>
-                                setRevealedCards(prev => prev.length == 2 ? prev : (prev.includes(index) ? prev : [...prev, index]))
+                                setRevealedCards(prev =>
+                                    prev.length === 2 ? prev : (prev.includes(index) ? prev : [...prev, index])
+                                )
                             }
                             isRevealed={revealedCards.includes(index)}
                         />
