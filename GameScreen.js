@@ -8,7 +8,7 @@ import { cards } from "./const";
 import { generateRandomList } from "./utils";
 
 export default function GameScreen() {
-    const totalCards = 6;
+    const [totalCards, setTotalCards] = useState(2); // must be even
     const revealSeconds = (totalCards / 2) * 1000;
     const [revealedCards, setRevealedCards] = useState([]);
     const [pickedCards, setPickedCards] = useState([]);
@@ -18,9 +18,8 @@ export default function GameScreen() {
         setPickedCards(c);
         // reveal all initially
         setRevealedCards(Array.from({ length: c.length }, (_, i) => i));
-    }, []);
+    }, [totalCards]);
 
-    // auto-clear revealedCards after revealSeconds whenever any are revealed
     useEffect(() => {
         if (revealedCards.length === 0) return;
         const t = setTimeout(() => setRevealedCards([]), revealSeconds);
