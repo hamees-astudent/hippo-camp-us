@@ -46,7 +46,7 @@ export default function GameScreen() {
                     // if all positions are matched, increase difficulty
                     const allMatched = next.every(v => typeof v === 'number' && v < 0);
                     if (allMatched) {
-                        setTotalCards(tc => tc * 2);
+                        setTotalCards(tc => tc + 2);
                     }
                     return next;
                 });
