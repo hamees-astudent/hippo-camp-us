@@ -9,7 +9,7 @@ import { generateRandomList } from "./utils";
 
 export default function GameScreen() {
     const [totalCards, setTotalCards] = useState(2); // must be even
-    const revealSeconds = (totalCards / 3) * 1000;
+    const revealSeconds = (totalCards / 2) * 1000;
     const [revealedCards, setRevealedCards] = useState([]);
     const [pickedCards, setPickedCards] = useState([]);
 
@@ -17,7 +17,7 @@ export default function GameScreen() {
         const c = generateRandomList(totalCards, 0, cards.length - 1).map(i => cards[i]);
         setPickedCards(c);
         // reveal all initially
-        setRevealedCards(c.keys().toArray());
+        setRevealedCards(Array.from(c.keys()));
     }, [totalCards]);
 
     // Hide revealed cards after a delay (initial reveal or mismatches)
@@ -27,9 +27,9 @@ export default function GameScreen() {
         return () => clearTimeout(t);
     }, [revealedCards, revealSeconds]);
 
-    // When exactly two cards are revealed, remove them if they match
+    // When exactly two cards are revealed, mark them as matched (set to a negative sentinel) if they match
     useEffect(() => {
-        setTimeout(() => {
+        const timeout = setTimeout(() => {
             if (revealedCards.length !== 2) return;
             const [a, b] = revealedCards;
             if (
@@ -38,9 +38,14 @@ export default function GameScreen() {
                 pickedCards[a] === pickedCards[b]
             ) {
                 setPickedCards(prev => {
-                    const toRemove = new Set([a, b]);
-                    const next = prev.filter((_, idx) => !toRemove.has(idx));
-                    if (next.length === 0) {
+                    const next = [...prev];
+                    // mark matched cards with a negative sentinel
+                    next[a] = -1;
+                    next[b] = -1;
+
+                    // if all positions are matched, increase difficulty
+                    const allMatched = next.every(v => typeof v === 'number' && v < 0);
+                    if (allMatched) {
                         setTotalCards(tc => tc * 2);
                     }
                     return next;
@@ -48,8 +53,10 @@ export default function GameScreen() {
                 // Clear revealed to allow next picks immediately
                 setRevealedCards([]);
             }
-        }, revealSeconds / 2);
-    }, [revealedCards, pickedCards]);
+        }, 1000);
+
+        return () => clearTimeout(timeout);
+    }, [revealedCards, pickedCards, revealSeconds]);
 
     // Compute a near-square grid that adapts to the number of cards
     const columns = Math.ceil(Math.sqrt(Math.max(1, pickedCards.length)));
@@ -72,28 +79,38 @@ export default function GameScreen() {
                         justifyContent: 'center'
                     }}
                 >
-                    {pickedCards.map((card, index) => (
-                        <View
-                            key={index}
-                            style={{
-                                width: cellWidthPct,
-                                padding: 6, // spacing between cards
-                                alignItems: 'center',
-                                justifyContent: 'center'
-                            }}
-                        >
-                            <Card
-                                card={card}
-                                index={index}
-                                revealCard={() =>
-                                    setRevealedCards(prev =>
-                                        prev.length === 2 ? prev : (prev.includes(index) ? prev : [...prev, index])
-                                    )
-                                }
-                                isRevealed={revealedCards.includes(index)}
-                            />
-                        </View>
-                    ))}
+                    {pickedCards.map((card, index) => {
+                        const isMatched = typeof card === 'number' && card < 0;
+                        return (
+                            <View
+                                key={index}
+                                style={{
+                                    width: cellWidthPct,
+                                    padding: 6, // spacing between cards
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}
+                                pointerEvents={isMatched ? 'none' : 'auto'}
+                            >
+                                {!isMatched && (
+                                    <Card
+                                        card={card}
+                                        index={index}
+                                        revealCard={() =>
+                                            setRevealedCards(prev => {
+                                                if (prev.length === 2) return prev;
+                                                if (prev.includes(index)) return prev;
+                                                // do not allow revealing matched cards
+                                                if (typeof pickedCards[index] === 'number' && pickedCards[index] < 0) return prev;
+                                                return [...prev, index];
+                                            })
+                                        }
+                                        isRevealed={revealedCards.includes(index)}
+                                    />
+                                )}
+                            </View>
+                        );
+                    })}
                 </View>
             </View>
         </ImageBackground>
