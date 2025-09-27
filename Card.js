@@ -8,7 +8,7 @@ export function Card({ card, index, revealCard, isRevealed }) {
     const animationPixelRate = 2; // how much of the width per tick
 
     const [scale, setScale] = useState(1); // 1 -> 0 -> 1
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
     const intervalRef = useRef(null);
 
     const scaleStep = animationPixelRate / maxCardWidth; // e.g., 5/100 = 0.05

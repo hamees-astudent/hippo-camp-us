@@ -13,12 +13,12 @@ export default function GameScreen() {
     const [pickedCards, setPickedCards] = useState([]);
 
     useEffect(() => {
-        setPickedCards(generateRandomList(totalCards, 0, cards.length - 1).map(i => cards[i]));
-        setRevealedCards(pickedCards);
+        const c = generateRandomList(totalCards, 0, cards.length - 1).map(i => cards[i]);
+        setPickedCards(c);
+        setRevealedCards(c.keys().toArray());
 
         setTimeout(() => {
             setRevealedCards([]);
-            console.log('Cards hidden');
         }, (totalCards / 2) * 1000);
     }, []);
 
@@ -32,8 +32,8 @@ export default function GameScreen() {
                 <View style={{ flexDirection: 'row', gap: 10 }}>
                     {pickedCards.map((card, index) => (
                         <Card key={index} card={card} index={index}
-                            revealCard={(c) => setRevealedCards((prev) => [...prev, index + ':' + c])}
-                            isRevealed={revealedCards.includes(index + ':' + card)} />
+                            revealCard={(c) => setRevealedCards((prev) => [...prev, index])}
+                            isRevealed={revealedCards.includes(index)} />
                     ))}
                 </View>
             </View>
