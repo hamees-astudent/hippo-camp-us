@@ -13,7 +13,7 @@ export default function MainScreen({ navigation }) {
 
     return (
         <ImageBackground
-            source={require('./assets/images/splash-screen.png')}
+            source={require('./assets/images/main-menu.png')}
             style={{ flex: 1, width: '100%', height: '100%' }}
             resizeMode="stretch"
         >

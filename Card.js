@@ -4,53 +4,63 @@ import CardBack from './assets/images/card-back.svg';
 
 export function Card({ card, index }) {
     const maxCardWidth = 100;
-    const minCardWidth = 1;
     const animationSpeed = 75;
-    const animationPixelRate = 5;
+    const animationPixelRate = 5; // how much of the width per tick
     const displaySeconds = 5;
 
-    const [width, setWidth] = useState(maxCardWidth);
+    const [scale, setScale] = useState(1); // 1 -> 0 -> 1
     const [isReversed, setIsReversed] = useState(false);
-    const ref = useRef(null);
+    const intervalRef = useRef(null);
+    const timeoutRef = useRef(null);
 
-    const reduceWidth = () => {
-        setWidth((prev) => {
-            if (prev <= minCardWidth) {
-                clearInterval(ref.current);
+    const scaleStep = animationPixelRate / maxCardWidth; // e.g., 5/100 = 0.05
+
+    const reduceScale = () => {
+        setScale((prev) => {
+            const next = Math.max(0, prev - scaleStep);
+            if (next <= 0) {
+                clearInterval(intervalRef.current);
                 setIsReversed(true);
-                ref.current = setInterval(increaseWidth, animationSpeed);
-                return minCardWidth;
+                intervalRef.current = setInterval(increaseScale, animationSpeed);
             }
-            return prev - animationPixelRate;
+            return next;
         });
     };
 
-    const increaseWidth = () => {
-        setWidth((prev) => {
-            if (prev >= maxCardWidth) {
-                clearInterval(ref.current);
-                ref.current = null;
-                return maxCardWidth;
+    const increaseScale = () => {
+        setScale((prev) => {
+            const next = Math.min(1, prev + scaleStep);
+            if (next >= 1) {
+                clearInterval(intervalRef.current);
+                intervalRef.current = null;
             }
-            return prev + animationPixelRate;
+            return next;
         });
     };
 
     useEffect(() => {
-        setTimeout(() => {
-            ref.current = setInterval(reduceWidth, animationSpeed);
+        timeoutRef.current = setTimeout(() => {
+            intervalRef.current = setInterval(reduceScale, animationSpeed);
         }, displaySeconds * 1000);
-        return () => clearInterval(ref.current); // cleanup on unmount
+
+        return () => {
+            clearTimeout(timeoutRef.current);
+            clearInterval(intervalRef.current);
+        };
     }, []);
 
     return (
         <ImageBackground
             key={index}
             source={isReversed ? CardBack : card}
-            style={{ width: width, height: 145, padding: (maxCardWidth - width) / 2 }}
+            style={{
+                width: maxCardWidth, // fixed width
+                height: 145,
+                transform: [{ scaleX: scale }], // shrink/expand visible image only
+                alignItems: "center",
+                justifyContent: "center",
+            }}
             resizeMode="stretch"
-            alignItems="center"
-            justifyContent="center"
             onClick={() => {
                 setIsReversed(false);
             }}
