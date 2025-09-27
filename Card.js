@@ -18,7 +18,6 @@ export function Card({ card, index, revealCard, isRevealed, displaySeconds }) {
             const next = Math.max(0, prev - scaleStep);
             if (next <= 0) {
                 clearInterval(intervalRef.current);
-                revealCard(card);
                 intervalRef.current = setInterval(increaseScale, animationSpeed);
             }
             return next;
