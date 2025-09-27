@@ -2,14 +2,14 @@ import { useEffect, useRef, useState } from "react";
 import { ImageBackground } from "react-native-web";
 import CardBack from './assets/images/card-back.svg';
 
-export function Card({ card, index, revealCard, isRevealed, displaySeconds }) {
+export function Card({ card, index, revealCard, isRevealed }) {
     const maxCardWidth = 100;
     const animationSpeed = 5;
     const animationPixelRate = 2; // how much of the width per tick
 
     const [scale, setScale] = useState(1); // 1 -> 0 -> 1
+    const [show, setShow] = useState(true);
     const intervalRef = useRef(null);
-    const timeoutRef = useRef(null);
 
     const scaleStep = animationPixelRate / maxCardWidth; // e.g., 5/100 = 0.05
 
@@ -18,6 +18,7 @@ export function Card({ card, index, revealCard, isRevealed, displaySeconds }) {
             const next = Math.max(0, prev - scaleStep);
             if (next <= 0) {
                 clearInterval(intervalRef.current);
+                setShow(isRevealed); // toggle show when scale is 0
                 intervalRef.current = setInterval(increaseScale, animationSpeed);
             }
             return next;
@@ -36,20 +37,17 @@ export function Card({ card, index, revealCard, isRevealed, displaySeconds }) {
     };
 
     useEffect(() => {
-        timeoutRef.current = setTimeout(() => {
-            intervalRef.current = setInterval(reduceScale, animationSpeed);
-        }, displaySeconds * 1000);
+        intervalRef.current = setInterval(reduceScale, animationSpeed);
 
         return () => {
-            clearTimeout(timeoutRef.current);
             clearInterval(intervalRef.current);
         };
-    }, []);
+    }, [isRevealed]);
 
     return (
         <ImageBackground
             key={index}
-            source={isRevealed ? CardBack : card}
+            source={show ? card : CardBack}
             style={{
                 width: maxCardWidth, // fixed width
                 height: 145,
@@ -59,7 +57,7 @@ export function Card({ card, index, revealCard, isRevealed, displaySeconds }) {
             }}
             resizeMode="stretch"
             onClick={() => {
-                revealCard(false);
+                revealCard(card);
             }}
         />
     );
