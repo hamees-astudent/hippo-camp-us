@@ -24,7 +24,7 @@ export default function AnimatedSplashScreen({ children, image }) {
         if (isAppReady) {
             Animated.timing(animation, {
                 toValue: 0,
-                duration: 3000,
+                duration: 5000,
                 useNativeDriver: true,
             }).start(() => setAnimationComplete(true));
         }
