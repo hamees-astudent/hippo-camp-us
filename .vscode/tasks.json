@@ -1,0 +1,17 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Generate Debug APK using EAS",
+            "type": "shell",
+            "command": "eas build -p android --profile debug --local --build-logger-level=warn --clear-cache --output=./build/debug.apk"
+        },
+        {
+            "label": "Install Debug APK",
+            "type": "shell",
+            "command": "adb install -r ./build/debug.apk"
+        }
+    ]
+}

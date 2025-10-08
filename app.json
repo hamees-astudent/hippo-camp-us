@@ -1,40 +1,35 @@
 {
-  "icon": "./assets/images/icon.png",
-  "splash": {
-    "image": "./assets/images/splash-screen.png",
-    "resizeMode": "stretch",
-    "backgroundColor": "#ffffff"
-  },
-  "plugins": [
-    [
-      "expo-asset",
-      {
-        "assets": [
-          "./assets/images/splash-screen.png"
-        ]
-      }
-    ],
-    [
-      "expo-splash-screen",
-      {
-        "backgroundColor": "#232323",
-        "image": "./assets/images/splash-screen.png",
-        "dark": {
-          "image": "./assets/images/splash-screen.png",
-          "backgroundColor": "#000000"
-        },
-        "imageWidth": 200
-      }
-    ]
-  ],
-  "name": "hippo-camp-us",
-  "slug": "hippo-camp-us",
-  "extra": {
-    "eas": {
-      "projectId": "f44b37ac-e1fb-44a1-ad3d-62dd04b87192"
-    }
-  },
   "expo": {
+    "icon": "./assets/images/icon.png",
+    "splash": {
+      "image": "./assets/images/splashscreen.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "plugins": [
+      [
+        "expo-asset",
+        {
+          "assets": [
+            "./assets/images/splashscreen.png"
+          ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#232323",
+          "image": "./assets/images/splashscreen.png",
+          "dark": {
+            "image": "./assets/images/splashscreen.png",
+            "backgroundColor": "#000000"
+          },
+          "imageWidth": 200
+        }
+      ]
+    ],
+    "name": "hippo-camp-us",
+    "slug": "hippo-camp-us",
     "android": {
       "package": "com.hamees.astudent.hippocampus",
       "adaptiveIcon": {

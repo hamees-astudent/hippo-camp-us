@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { ImageBackground } from "react-native-web";
-import CardBack from './assets/images/card-back.svg';
+import CardBack from './assets/images/cardback.svg';
 
 /**
  * Card

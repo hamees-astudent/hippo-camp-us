@@ -113,7 +113,7 @@ export default function GameScreen() {
 
     return (
         <ImageBackground
-            source={require('./assets/images/table-top.jpg')}
+            source={require('./assets/images/tabletop.jpg')}
             style={{ flex: 1, width: '100%', height: '100%' }}
             resizeMode="stretch"
         >
