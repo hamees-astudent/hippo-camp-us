@@ -28,5 +28,15 @@
     ]
   ],
   "name": "hippo-camp-us",
-  "slug": "hippo-camp-us"
+  "slug": "hippo-camp-us",
+  "extra": {
+    "eas": {
+      "projectId": "f44b37ac-e1fb-44a1-ad3d-62dd04b87192"
+    }
+  },
+  "expo": {
+    "android": {
+      "package": "com.hamees.astudent.hippocampus"
+    }
+  }
 }
