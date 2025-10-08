@@ -1,19 +1,11 @@
-import { Asset } from "expo-asset";
 import Constants from "expo-constants";
 import * as SplashScreen from "expo-splash-screen";
-import * as Updates from "expo-updates";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  Animated,
-  Button,
-  ImageBackground,
-  Platform,
-  StyleSheet,
-  Text,
-  View,
+    Animated,
+    StyleSheet,
+    View
 } from "react-native";
-import AnimatedAppLoader from './AnimatedAppLoader';
-import MainScreen from './MainScreen';
 
 export default function AnimatedSplashScreen({ children, image }) {
     const animation = useMemo(() => new Animated.Value(1), []);
