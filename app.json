@@ -18,9 +18,9 @@
       "expo-splash-screen",
       {
         "backgroundColor": "#232323",
-        "image": "./assets/images/splash-icon.png",
+        "image": "./assets/images/splash-screen.png",
         "dark": {
-          "image": "./assets/images/splash-icon-dark.png",
+          "image": "./assets/images/splash-screen.png",
           "backgroundColor": "#000000"
         },
         "imageWidth": 200
@@ -36,7 +36,19 @@
   },
   "expo": {
     "android": {
-      "package": "com.hamees.astudent.hippocampus"
+      "package": "com.hamees.astudent.hippocampus",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "ios": {
+      "icon": "./assets/ios-icon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "f44b37ac-e1fb-44a1-ad3d-62dd04b87192"
+      }
     }
   }
 }
