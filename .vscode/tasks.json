@@ -12,6 +12,16 @@
             "label": "Install Debug APK",
             "type": "shell",
             "command": "adb install -r ./build/debug.apk"
+        },
+        {
+            "label": "Generate Release APK using EAS",
+            "type": "shell",
+            "command": "eas build -p android --profile release --local --build-logger-level=warn --clear-cache --output=./build/release.apk"
+        },
+        {
+            "label": "Install Release APK",
+            "type": "shell",
+            "command": "adb install -r ./build/release.apk"
         }
     ]
 }
